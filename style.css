@@ -1,0 +1,1532 @@
+/* ═══════════════════════════════════════════
+   CRAFTREALMS SMP — style.css
+   Sections:
+     1. CSS Variables & Reset
+     2. Typography Utilities
+     3. Navigation
+     4. Hero
+     5. Stats
+     6. Sections (shared)
+     7. Features
+     8. Rules
+     9. Ranks
+    10. Gallery
+    11. Online Players
+    12. Discord
+    13. Footer
+    14. Toast
+    15. Animations & Scroll Reveal
+    16. Responsive / Mobile
+═══════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────
+   1. CSS VARIABLES & RESET
+───────────────────────────────────────── */
+:root {
+  --green:   #4ade80;
+  --dark-green: #16a34a;
+  --yellow:  #fbbf24;
+  --orange:  #f97316;
+  --sky:     #38bdf8;
+  --purple:  #a78bfa;
+  --pink:    #f472b6;
+  --red:     #f87171;
+
+  --dark:    #0f172a;
+  --darker:  #020617;
+  --card:    #1e293b;
+  --card2:   #162032;
+  --border:  rgba(255, 255, 255, 0.08);
+  --text:    #f8fafc;
+  --muted:   #94a3b8;
+}
+
+*  { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--darker);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+}
+
+
+/* ─────────────────────────────────────────
+   2. TYPOGRAPHY UTILITIES
+───────────────────────────────────────── */
+.pixel { font-family: 'Press Start 2P', monospace; }
+
+.green-text  { color: var(--green);  }
+.yellow-text { color: var(--yellow); }
+.sky-text    { color: var(--sky);    }
+.purple-text { color: var(--purple); }
+.muted-text  { color: var(--muted);  }
+
+
+/* ─────────────────────────────────────────
+   3. NAVIGATION
+───────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.nav-logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+  line-height: 1.4;
+}
+
+.nav-logo span { color: var(--yellow); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--green); }
+
+/* Hamburger button */
+.burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+}
+
+.burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* Mobile dropdown menu */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 60px; left: 0; right: 0;
+  background: rgba(2, 6, 23, 0.97);
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 99;
+}
+
+.mobile-menu.open { display: flex; }
+
+.mobile-menu a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+
+/* ─────────────────────────────────────────
+   4. HERO
+───────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1.5rem 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%,   rgba(74, 222, 128, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%,  rgba(251, 191, 36, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 20% 60%,  rgba(167, 139, 250, 0.10) 0%, transparent 50%);
+}
+
+/* Floating pixel blocks */
+.blocks-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.block {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  opacity: 0.15;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0%   { transform: translateY(110vh) rotate(0deg);   opacity: 0;    }
+  10%  { opacity: 0.2; }
+  90%  { opacity: 0.15; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0;    }
+}
+
+/* Server-online badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0   rgba(74, 222, 128, 0.6); }
+  50%       { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);   }
+}
+
+/* Main heading */
+.hero h1 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(22px, 5vw, 52px);
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+
+.hero h1 .line1 { color: var(--green);  }
+.hero h1 .line2 { color: var(--yellow); }
+
+.hero-sub {
+  font-size: clamp(15px, 2.5vw, 20px);
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+  font-weight: 600;
+  line-height: 1.6;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+
+/* IP copy box */
+.ip-box {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  max-width: 440px;
+  width: 100%;
+  margin: 0 auto 1rem;
+  animation: fadeUp 0.7s 0.3s ease both;
+  transition: border-color 0.3s;
+}
+
+.ip-box:focus-within,
+.ip-box:hover { border-color: var(--green); }
+
+.ip-icon {
+  padding: 0 1rem;
+  font-size: 20px;
+  color: var(--green);
+}
+
+.ip-text {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  padding: 1rem 0;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.copy-btn {
+  background: var(--green);
+  border: none;
+  color: #0f172a;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 0.85rem 1.4rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.copy-btn:hover  { background: #22c55e; }
+.copy-btn:active { transform: scale(0.97); }
+.copy-btn.copied { background: var(--sky); }
+
+/* Hero CTA buttons */
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.4s ease both;
+  margin-top: 0.5rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.6rem;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 15px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s, filter 0.2s;
+}
+
+.btn:hover  { transform: translateY(-2px); filter: brightness(1.1); }
+.btn:active { transform: scale(0.97); }
+
+.btn-primary  { background: var(--yellow); color: #0f172a; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 2px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+
+/* ─────────────────────────────────────────
+   5. STATS BAR
+───────────────────────────────────────── */
+.stats {
+  padding: 3rem 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.stat-emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+
+.stat-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 20px;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label { font-size: 13px; color: var(--muted); font-weight: 600; }
+
+
+/* ─────────────────────────────────────────
+   6. SECTIONS — SHARED STYLES
+───────────────────────────────────────── */
+section { padding: 5rem 1.5rem; }
+
+.container { max-width: 1000px; margin: 0 auto; }
+
+.section-tag {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  color: var(--green);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(16px, 3vw, 26px);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+
+/* ─────────────────────────────────────────
+   7. FEATURES
+───────────────────────────────────────── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  transition: transform 0.25s, border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Coloured top accent bar */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: 20px 20px 0 0;
+}
+
+.feature-card.green::before  { background: var(--green);  }
+.feature-card.yellow::before { background: var(--yellow); }
+.feature-card.sky::before    { background: var(--sky);    }
+.feature-card.purple::before { background: var(--purple); }
+.feature-card.pink::before   { background: var(--pink);   }
+.feature-card.orange::before { background: var(--orange); }
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.feature-icon  { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+.feature-title { font-weight: 800; font-size: 17px; margin-bottom: 0.5rem; }
+.feature-desc  { color: var(--muted); font-size: 14px; line-height: 1.7; font-weight: 600; }
+
+
+/* ─────────────────────────────────────────
+   8. RULES
+───────────────────────────────────────── */
+.rules-bg { background: var(--card2); }
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.rule-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: transform 0.2s;
+}
+
+.rule-item:hover { transform: translateX(4px); }
+
+.rule-num {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--yellow);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.rule-text { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.6; }
+.rule-sub  { font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 0.25rem; }
+
+
+/* ─────────────────────────────────────────
+   9. RANKS
+───────────────────────────────────────── */
+.ranks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.rank-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.25s;
+}
+
+.rank-card:hover { transform: translateY(-4px); }
+
+.rank-card.featured {
+  border-color: var(--yellow);
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.1);
+}
+
+.rank-crown { font-size: 2rem; margin-bottom: 0.5rem; }
+
+.rank-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 9px;
+  margin-bottom: 0.5rem;
+}
+
+/* Rank badge pills */
+.rank-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+
+.badge-muted  { background: rgba(148,163,184,0.15); color: var(--muted);  }
+.badge-green  { background: rgba(74,222,128,0.15);  color: var(--green);  }
+.badge-yellow { background: rgba(251,191,36,0.15);  color: var(--yellow); }
+.badge-sky    { background: rgba(56,189,248,0.15);  color: var(--sky);    }
+
+.rank-price  { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 0.25rem; }
+.rank-period { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+.rank-perks { list-style: none; text-align: left; margin-top: 1rem; }
+
+.rank-perks li {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.rank-perks li:last-child { border-bottom: none; }
+.rank-perks li::before { content: '✓'; color: var(--green); flex-shrink: 0; }
+
+
+/* ─────────────────────────────────────────
+   10. GALLERY
+───────────────────────────────────────── */
+.gallery-bg { background: var(--card2); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-item {
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.gallery-thumb {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover .gallery-thumb { transform: scale(1.08); }
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-weight: 800;
+  font-size: 15px;
+  color: white;
+}
+
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+
+/* ─────────────────────────────────────────
+   11. ONLINE PLAYERS
+───────────────────────────────────────── */
+.players-section { padding: 5rem 1.5rem; }
+
+.players-card {
+  max-width: 700px;
+  margin: 2rem auto 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.players-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.players-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.player-count-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(74, 222, 128, 0.15);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--green);
+}
+
+.players-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.player-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--darker);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  font-size: 13px;
+  font-weight: 700;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.player-chip:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.player-avatar {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* Skin face image */
+.player-skin {
+  display: block;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  image-rendering: pixelated;    /* keeps the blocky MC look sharp  */
+  image-rendering: crisp-edges;
+}
+
+.player-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90px;
+}
+
+.no-players {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+
+/* ─────────────────────────────────────────
+   12. DISCORD
+───────────────────────────────────────── */
+.discord-section { text-align: center; padding: 5rem 1.5rem; }
+
+.discord-card {
+  max-width: 580px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #5865f2 0%, #7c84f6 100%);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+}
+
+.discord-logo { font-size: 3.5rem; margin-bottom: 1rem; }
+
+.discord-card h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(14px, 3vw, 20px);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.discord-card p { font-size: 15px; font-weight: 600; margin-bottom: 1.75rem; opacity: 0.9; }
+
+.btn-discord {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: white;
+  color: #5865f2;
+  font-weight: 800;
+  font-size: 15px;
+  padding: 0.85rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.btn-discord:hover { transform: translateY(-2px); filter: brightness(0.97); }
+
+
+/* ─────────────────────────────────────────
+   13. FOOTER
+───────────────────────────────────────── */
+footer {
+  background: var(--card2);
+  border-top: 1px solid var(--border);
+  padding: 3rem 1.5rem;
+}
+
+.footer-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+}
+
+.footer-logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  color: var(--green);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.footer-logo span { color: var(--yellow); }
+
+.footer-desc { font-size: 14px; color: var(--muted); font-weight: 600; line-height: 1.7; }
+
+.footer-col-title {
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 0.6rem; }
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--green); }
+
+.footer-bottom {
+  max-width: 1000px;
+  margin: 2rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.social-links { display: flex; gap: 0.75rem; }
+
+.social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  text-decoration: none;
+}
+
+.social-btn:hover { border-color: var(--green); transform: translateY(-2px); }
+
+
+/* ─────────────────────────────────────────
+   14. TOAST NOTIFICATION
+───────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--green);
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 10px;
+  z-index: 200;
+  transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+
+/* ─────────────────────────────────────────
+   15. ANIMATIONS & SCROLL REVEAL
+───────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ═══════════════════════════════════════════
+   ADDITIONS — paste these at the bottom of style.css
+═══════════════════════════════════════════ */
+ 
+/* ─────────────────────────────────────────
+   PERMS SECTION
+───────────────────────────────────────── */
+.perms-bg { background: var(--card2); }
+ 
+.perms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+ 
+.perm-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.75rem;
+  transition: transform 0.25s, border-color 0.25s;
+}
+ 
+.perm-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+ 
+.perm-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+ 
+.pic-header   { border-left: 3px solid var(--purple); padding-left: 0.75rem; border-radius: 0 0 0 3px; }
+.boost-header { border-left: 3px solid var(--pink);   padding-left: 0.75rem; border-radius: 0 0 0 3px; }
+ 
+.perm-icon { font-size: 2rem; }
+ 
+.perm-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+ 
+.perm-desc {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+ 
+.perm-how {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+}
+ 
+.perm-how-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--purple);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+}
+ 
+.perm-steps {
+  list-style: none;
+  padding: 0;
+}
+ 
+.perm-steps li {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+ 
+.perm-steps li:last-child { border-bottom: none; }
+.perm-steps li::before { content: '›'; color: var(--purple); flex-shrink: 0; font-weight: 800; }
+ 
+.perm-steps li strong { color: var(--text); }
+.perm-steps li code {
+  background: rgba(167,139,250,0.15);
+  color: var(--purple);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: monospace;
+}
+ 
+/* Boost tiers inside booster card */
+.boost-tiers { display: flex; flex-direction: column; gap: 1rem; }
+ 
+.boost-tier {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+}
+ 
+.boost-tier-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+}
+ 
+.boost-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+ 
+.dot-pink   { background: var(--pink);   }
+.dot-purple { background: var(--purple); }
+ 
+.boost-tier .perm-steps li::before { content: '✓'; color: var(--pink); }
+ 
+ 
+/* ─────────────────────────────────────────
+   EXTENDED RANKS (6-column grid)
+───────────────────────────────────────── */
+.ranks-grid-full {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ranks-grid-full .rank-card {
+  min-width: 200px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.ranks-grid-full::-webkit-scrollbar {
+  height: 4px;
+}
+
+.ranks-grid-full::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+  margin: 0 0.5rem;
+}
+
+.ranks-grid-full::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, var(--green), var(--yellow), var(--purple));
+  border-radius: 999px;
+}
+
+.ranks-grid-full::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, var(--yellow), var(--green));
+  opacity: 0.9;
+}
+/* Purple badge for Miffins */
+.badge-purple2 {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  background: rgba(167,139,250,0.15);
+  color: var(--purple);
+}
+ 
+/* Orange for Muffins */
+.orange-text { color: var(--orange); }
+ 
+.badge-orange {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  background: rgba(249,115,22,0.15);
+  color: var(--orange);
+}
+ 
+/* Glow on Muffins card */
+.rank-card-glow {
+  border-color: var(--orange);
+  box-shadow: 0 0 24px rgba(249, 115, 22, 0.12);
+}
+ 
+
+/* ═══════════════════════════════════════════
+   PERMS SECTION v2 — paste at bottom of style.css
+═══════════════════════════════════════════ */
+ 
+/* ── Section wrapper ── */
+.perms-bg { background: var(--card2); }
+ 
+ 
+/* ── Role pills ── */
+.role-pill {
+  display: inline-block;
+  padding: 0.25rem 0.85rem;
+  border-radius: 999px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  margin-bottom: 0.6rem;
+}
+.pill-purple { background: rgba(167,139,250,0.18); color: var(--purple); border: 1px solid rgba(167,139,250,0.35); }
+.pill-pink   { background: rgba(244,114,182,0.18); color: var(--pink);   border: 1px solid rgba(244,114,182,0.35); }
+ 
+ 
+/* ══════════════════════════════════════
+   PIC PERMS WIDE CARD
+══════════════════════════════════════ */
+.perms-wide-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  transition: transform 0.25s, border-color 0.25s;
+}
+ 
+.perms-wide-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(167,139,250,0.4);
+}
+ 
+/* Left column */
+.perms-wide-left {
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border-right: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+ 
+/* Decorative corner glow */
+.perms-wide-left::before {
+  content: '';
+  position: absolute;
+  top: -40px; left: -40px;
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(167,139,250,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+ 
+/* Big icon */
+.role-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  flex-shrink: 0;
+}
+ 
+.pic-glow {
+  background: rgba(167,139,250,0.15);
+  border: 1.5px solid rgba(167,139,250,0.35);
+  box-shadow: 0 0 24px rgba(167,139,250,0.15);
+}
+ 
+.role-big-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+ 
+.role-flavor {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.7;
+}
+ 
+.role-flavor code {
+  background: rgba(167,139,250,0.15);
+  color: var(--purple);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+ 
+/* Right column — quest steps */
+.perms-wide-right {
+  padding: 2.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+ 
+.quest-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+ 
+.quest-star { font-size: 18px; }
+ 
+.quest-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+}
+ 
+/* Step track */
+.steps-track { display: flex; flex-direction: column; gap: 0; }
+ 
+.step-item {
+  display: grid;
+  grid-template-columns: 32px 2px 1fr;
+  gap: 0 12px;
+  align-items: start;
+}
+ 
+.step-num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(167,139,250,0.15);
+  border: 1.5px solid rgba(167,139,250,0.45);
+  color: var(--purple);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+}
+ 
+.step-line {
+  width: 2px;
+  min-height: 48px;
+  background: rgba(167,139,250,0.25);
+  margin: 0 auto;
+  align-self: stretch;
+}
+ 
+.last-line { background: transparent; }
+ 
+.step-body {
+  padding-bottom: 1.25rem;
+}
+ 
+.step-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  line-height: 1.5;
+}
+ 
+.step-desc {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.6;
+}
+ 
+.step-desc code {
+  background: rgba(167,139,250,0.12);
+  color: var(--purple);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+ 
+ 
+/* ══════════════════════════════════════
+   BOOST SECTION
+══════════════════════════════════════ */
+.boost-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  transition: transform 0.25s, border-color 0.25s;
+}
+ 
+.boost-section:hover {
+  transform: translateY(-4px);
+  border-color: rgba(244,114,182,0.3);
+}
+ 
+.boost-section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+ 
+.boost-lightning {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 12px rgba(244,114,182,0.4));
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+ 
+.boost-section-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+ 
+.boost-section-sub {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.7;
+  max-width: 500px;
+}
+ 
+/* Tier cards row */
+.boost-tiers-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+ 
+.boost-tier-card {
+  background: rgba(255,255,255,0.035);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+  position: relative;
+}
+ 
+.boost-tier-card:hover { transform: translateY(-3px); }
+ 
+.tier-1x:hover { border-color: rgba(244,114,182,0.4); }
+.tier-2x:hover { border-color: rgba(167,139,250,0.5); }
+ 
+/* Colored top bar */
+.tier-top-bar {
+  height: 3px;
+  width: 100%;
+}
+.bar-pink   { background: var(--pink);   }
+.bar-purple { background: var(--purple); }
+ 
+/* "More Perks" tag on 2x */
+.tier-recommended {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--purple);
+  background: rgba(167,139,250,0.12);
+  padding: 0.3rem 0;
+  letter-spacing: 0.5px;
+}
+ 
+.tier-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.25rem 1.25rem 0.75rem;
+}
+ 
+.tier-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(244,114,182,0.15);
+  border: 1px solid rgba(244,114,182,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+ 
+.tier-icon-purple {
+  background: rgba(167,139,250,0.15);
+  border-color: rgba(167,139,250,0.3);
+}
+ 
+.tier-role-name {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 10px;
+  color: var(--pink);
+  margin-bottom: 0.25rem;
+}
+ 
+.tier-boost-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+ 
+/* Perks list inside tier */
+.tier-perks-list {
+  list-style: none;
+  padding: 0 1.25rem;
+  margin: 0 0 1rem;
+}
+ 
+.tier-perks-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 700;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+ 
+.tier-perks-list li:last-child { border-bottom: none; }
+ 
+.perk-check {
+  font-size: 12px;
+  font-weight: 800;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ 
+.check-pink   { background: rgba(244,114,182,0.18); color: var(--pink);   }
+.check-purple { background: rgba(167,139,250,0.18); color: var(--purple); }
+ 
+.tier-footer {
+  padding: 0.75rem 1.25rem 1.25rem;
+}
+ 
+.tier-badge {
+  display: inline-block;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+}
+ 
+.badge-pink-soft   { background: rgba(244,114,182,0.12); color: var(--pink);   border: 1px solid rgba(244,114,182,0.3); }
+.badge-purple-soft { background: rgba(167,139,250,0.12); color: var(--purple); border: 1px solid rgba(167,139,250,0.3); }
+ 
+/* VS divider */
+.boost-vs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+ 
+.vs-line {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+}
+ 
+.vs-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--card2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 7px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+ 
+
+/* ─────────────────────────────────────────
+   16. RESPONSIVE / MOBILE
+───────────────────────────────────────── */
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .perms-wide-card {
+    grid-template-columns: 1fr;
+  }
+  .perms-wide-left {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .boost-tiers-row {
+    grid-template-columns: 1fr;
+  }
+  .boost-vs {
+    flex-direction: row;
+    padding: 0.5rem 0;
+  }
+  .vs-line {
+    width: 40px;
+    height: 1px;
+  }
+  .boost-section-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+ 
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .burger    { display: flex; }
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .ip-text   { font-size: 8px; }
+  .perms-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hero h1  { font-size: 18px; }
+  .copy-btn { padding: 0.75rem 1rem; font-size: 12px; }
+}

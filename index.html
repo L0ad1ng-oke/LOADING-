@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L0AD1NG SMP SEASON 3 — Your Adventure Awaits</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════ -->
+  <nav>
+    <div class="nav-logo">⛏ L0AD1NG SMP<br><span></span></div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#rules">Rules</a></li>
+      <li><a href="#ranks">Ranks</a></li>
+      <li><a href="#players">Players</a></li>
+      <li><a href="#discord">Discord</a></li>
+    </ul>
+    <button class="burger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features" onclick="toggleMenu()">✨ Features</a>
+    <a href="#rules"    onclick="toggleMenu()">📋 Rules</a>
+    <a href="#ranks"    onclick="toggleMenu()">👑 Ranks</a>
+    <a href="#players"  onclick="toggleMenu()">🎮 Players</a>
+    <a href="#discord"  onclick="toggleMenu()">💬 Discord</a>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast">✓ IP Copied to clipboard!</div>
+
+
+  <!-- ═══════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="blocks-bg" id="blocksBg"></div>
+
+    <div class="hero-badge">
+      <span class="status-dot"></span>
+      Server Online • 24/7
+    </div>
+
+    <h1>
+      <span class="line1">L0AD1NG<br>SMP</span><br>
+      <span class="line2">SEASON 3</span>
+    </h1>
+
+    <p class="hero-sub">A friendly Survival Multiplayer server where your adventure never ends. Build, explore, and make new friends! 🌍</p>
+
+    <div class="ip-box">
+      <span class="ip-icon">⛏</span>
+      <input class="ip-text" id="ipInput" value="l0ad1ng.srein.xyz" readonly onclick="copyIP()">
+      <button class="copy-btn" id="copyBtn" onclick="copyIP()">
+        <span id="copyIcon">📋</span>
+        <span id="copyText">Copy IP</span>
+      </button>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#features" class="btn btn-primary">🎮 Explore Features</a>
+      <a href="#discord"  class="btn btn-secondary">💬 Join Discord</a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       STATS
+  ═══════════════════════════════════════ -->
+  <div class="stats reveal">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-emoji">👾</div>
+        <div class="stat-num green-text" id="onlineCount">0</div>
+        <div class="stat-label">Players Online</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">🏆</div>
+        <div class="stat-num yellow-text" id="totalCount">0</div>
+        <div class="stat-label">Total Players</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">🗺️</div>
+        <div class="stat-num sky-text">2</div>
+        <div class="stat-label">Game Worlds</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-emoji">⭐</div>
+        <div class="stat-num purple-text">1.21+</div>
+        <div class="stat-label">MC Version</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       FEATURES
+  ═══════════════════════════════════════ -->
+  <section id="features">
+    <div class="container">
+      <div class="section-tag reveal">What We Offer</div>
+      <h2 class="section-title reveal">Epic Server Features</h2>
+      <p class="section-desc reveal">Everything you need for the ultimate Minecraft experience — and then some! 🚀</p>
+
+      <div class="features-grid">
+        <div class="feature-card green reveal">
+          <span class="feature-icon">🌍</span>
+          <div class="feature-title">Survival SMP</div>
+          <p class="feature-desc">Classic survival gameplay with a twist — custom terrain generation, unique biomes, and tons of hidden secrets to discover.</p>
+        </div>
+        <div class="feature-card yellow reveal">
+          <span class="feature-icon">🏠</span>
+          <div class="feature-title">Land Claiming</div>
+          <p class="feature-desc">Protect your builds with our easy land claiming system. No more griefing — your creations are safe and yours forever.</p>
+        </div>
+        <div class="feature-card pink reveal">
+          <span class="feature-icon">🎉</span>
+          <div class="feature-title">Weekly Events</div>
+          <p class="feature-desc">Join fun events every week — build competitions, treasure hunts, PvP tournaments, and holiday specials with awesome prizes.</p>
+        </div>
+        <div class="feature-card orange reveal">
+          <span class="feature-icon">🤝</span>
+          <div class="feature-title">Friendly Community</div>
+          <p class="feature-desc">A welcoming, drama-free community with active staff. New players are always welcomed with a starter kit!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       RULES
+  ═══════════════════════════════════════ -->
+  <section id="rules" class="rules-bg">
+    <div class="container">
+      <div class="section-tag reveal">Play Fair</div>
+      <h2 class="section-title reveal">Server Rules</h2>
+      <p class="section-desc reveal">Follow these rules to keep the server fun and fair for everyone. Violations may result in a ban. 📋</p>
+
+      <div class="rules-grid">
+        <div class="rule-item reveal">
+          <span class="rule-num">#1</span>
+          <div>
+            <div class="rule-text">Be Respectful</div>
+            <div class="rule-sub">Treat all players with kindness. No harassment, hate speech, or bullying of any kind.</div>
+          </div>
+        </div>
+        <div class="rule-item reveal">
+          <span class="rule-num">#2</span>
+          <div>
+            <div class="rule-text">No Cheating or Hacking</div>
+            <div class="rule-sub">No hacked clients, X-ray, or exploits. Keep the game fair for everyone.</div>
+          </div>
+        </div>
+        <div class="rule-item reveal">
+          <span class="rule-num">#3</span>
+          <div>
+            <div class="rule-text">No Griefing</div>
+            <div class="rule-sub">Do not destroy, steal from, or damage other players' builds without permission.</div>
+          </div>
+        </div>
+        <div class="rule-item reveal">
+          <span class="rule-num">#4</span>
+          <div>
+            <div class="rule-text">Keep Chat Clean</div>
+            <div class="rule-sub">No spamming, excessive caps, NSFW content, or advertising other servers.</div>
+          </div>
+        </div>
+        <div class="rule-item reveal">
+          <span class="rule-num">#5</span>
+          <div>
+            <div class="rule-text">Listen to Staff</div>
+            <div class="rule-sub">Respect and follow directions from moderators and admins at all times.</div>
+          </div>
+        </div>
+        <div class="rule-item reveal">
+          <span class="rule-num">#6</span>
+          <div>
+            <div class="rule-text">Have Fun!</div>
+            <div class="rule-sub">The most important rule — enjoy yourself and help make this a great place for all.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ═══════════════════════════════════════
+     PERMS SECTION — paste BEFORE #ranks section in index.html
+═══════════════════════════════════════ -->
+<section id="perms" class="perms-bg">
+  <div class="container">
+    <div class="section-tag reveal">Community Roles</div>
+    <h2 class="section-title reveal">Roles &amp; Perms</h2>
+    <p class="section-desc reveal">Earn special roles by being active, boosting, or supporting the server! 🌟</p>
+
+    <!-- ── PIC PERMS CARD ── -->
+    <div class="perms-wide-card pic-card reveal">
+      <div class="perms-wide-left">
+        <div class="role-icon-wrap pic-glow">
+          <span class="role-big-icon">🖼️</span>
+        </div>
+        <div class="role-label-col">
+          <div class="role-pill pill-purple">EARNED ROLE</div>
+          <div class="role-big-name">Pic Perms</div>
+          <p class="role-flavor">Unlocks the ability to attach images &amp; files in <code>#chat</code>. Awarded once you've proven you're an active member!</p>
+        </div>
+      </div>
+
+      <div class="perms-wide-right">
+        <div class="quest-header">
+          <span class="quest-star">⭐</span>
+          <span class="quest-title">How to Obtain</span>
+        </div>
+
+        <div class="steps-track">
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div class="step-line"></div>
+            <div class="step-body">
+              <div class="step-title">Reach 300 Messages</div>
+              <div class="step-desc">Chat in <code>#chat</code> until you hit 300 messages in the server.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div class="step-line"></div>
+            <div class="step-body">
+              <div class="step-title">Check Your Count</div>
+              <div class="step-desc">Go to <code>#chat</code> → press the 🔍 search icon (top right) → type <code>from</code> → click the From button → add your username.</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div class="step-line last-line"></div>
+            <div class="step-body">
+              <div class="step-title">Claim Your Role</div>
+              <div class="step-desc">Head to <code>#tickets</code> and open a ticket to receive your Pic Perms role!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BOOSTER PERKS ── -->
+    <div class="boost-section reveal">
+      <div class="boost-section-header">
+        <span class="boost-lightning">⚡</span>
+        <div>
+          <div class="role-pill pill-pink" style="margin-bottom:0.4rem">SERVER BOOST</div>
+          <div class="boost-section-title">Booster Perks</div>
+          <p class="boost-section-sub">Boosting the Discord server helps unlock new features. Every boost is deeply appreciated!</p>
+        </div>
+      </div>
+
+      <div class="boost-tiers-row">
+
+        <!-- 1x Boost -->
+        <div class="boost-tier-card tier-1x">
+          <div class="tier-top-bar bar-pink"></div>
+          <div class="tier-header">
+            <div class="tier-icon-wrap">
+              <span style="font-size:20px">💗</span>
+            </div>
+            <div>
+              <div class="tier-role-name">@Tippies</div>
+              <div class="tier-boost-label">1× Boost</div>
+            </div>
+          </div>
+          <ul class="tier-perks-list">
+            <li><span class="perk-check check-pink">✓</span> Custom Role</li>
+            <li><span class="perk-check check-pink">✓</span> Automatic Pic Perms</li>
+          </ul>
+          <div class="tier-footer">
+            <span class="tier-badge badge-pink-soft">1 Boost Required</span>
+          </div>
+        </div>
+
+        <!-- VS divider -->
+        <div class="boost-vs">
+          <div class="vs-line"></div>
+          <div class="vs-circle">VS</div>
+          <div class="vs-line"></div>
+        </div>
+
+        <!-- 2x Boost -->
+        <div class="boost-tier-card tier-2x">
+          <div class="tier-top-bar bar-purple"></div>
+          <div class="tier-recommended">★ More Perks</div>
+          <div class="tier-header">
+            <div class="tier-icon-wrap tier-icon-purple">
+              <span style="font-size:20px">💜</span>
+            </div>
+            <div>
+              <div class="tier-role-name purple-text">@Tippies</div>
+              <div class="tier-boost-label">2× Boost</div>
+            </div>
+          </div>
+          <ul class="tier-perks-list">
+            <li><span class="perk-check check-purple">✓</span> Custom Role</li>
+            <li><span class="perk-check check-purple">✓</span> Automatic Pic Perms</li>
+            <li><span class="perk-check check-purple">✓</span> Custom Auto Responder</li>
+          </ul>
+          <div class="tier-footer">
+            <span class="tier-badge badge-purple-soft">2 Boosts Required</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     RANKS — replace your existing #ranks section with this
+═══════════════════════════════════════ -->
+<section id="ranks">
+  <div class="container">
+    <div class="section-tag reveal">Support the Server</div>
+    <h2 class="section-title reveal">Donator Perks</h2>
+    <p class="section-desc reveal">Support us and unlock awesome in-game and Discord perks! 👑</p>
+
+    <div class="ranks-grid-full">
+
+      <!-- MEMBER -->
+      <div class="rank-card reveal">
+        <div class="rank-crown">🌱</div>
+        <div class="rank-name muted-text">MEMBER</div>
+        <div class="rank-badge badge-muted">Default</div>
+        <div class="rank-price">FREE</div>
+        <ul class="rank-perks">
+          <li>Access to all worlds</li>
+          <li>1 /home slot</li>
+          <li>Land claiming</li>
+        </ul>
+      </div>
+
+      <!-- CONTENT CREATOR -->
+      <div class="rank-card reveal">
+        <div class="rank-crown">🎮</div>
+        <div class="rank-name green-text">Content Creator</div>
+        <div class="rank-badge badge-green">COOL</div>
+        <div class="rank-price">FREE</div>
+        <ul class="rank-perks">
+          <li>2 /home slots</li>
+          <li>Automatic Pic Perms</li>
+          <li>+700 Claim Blocks per video or stream</li>
+        </ul>
+      </div>
+
+      <!-- MUNCHKINS -->
+      <div class="rank-card featured reveal">
+        <div class="rank-crown">⚡</div>
+        <div class="rank-name yellow-text">Munchkins</div>
+        <div class="rank-badge badge-yellow">⭐ Popular</div>
+        <div class="rank-price">₱20 – ₱99</div>
+        <div class="rank-period">Range</div>
+        <ul class="rank-perks">
+          <li>Automatic Pic Perms</li>
+          <li>+2,000 Land Claim Blocks</li>
+          <li>+2 Custom Warps</li>
+          <li>+5 Set Home</li>
+          <li>Custom Mob in Donator's Aquarium</li>
+        </ul>
+      </div>
+
+      <!-- MITSKIES -->
+      <div class="rank-card reveal">
+        <div class="rank-crown">🌟</div>
+        <div class="rank-name sky-text">Mitskies</div>
+        <div class="rank-badge badge-sky">Premium</div>
+        <div class="rank-price">₱100 – ₱200</div>
+        <div class="rank-period">Range</div>
+        <ul class="rank-perks">
+          <li>All Munchkins perks</li>
+          <li>+5,000 Land Claim Blocks</li>
+          <li>+10 Custom Warps</li>
+          <li>+2 Custom Commands (in-game)</li>
+          <li>+10 Set Home</li>
+          <li>Custom Mob in Donator's Aquarium</li>
+        </ul>
+      </div>
+
+      <!-- MIFFINS -->
+      <div class="rank-card reveal">
+        <div class="rank-crown">💜</div>
+        <div class="rank-name purple-text">Miffins</div>
+        <div class="rank-badge badge-purple2">Elite</div>
+        <div class="rank-price">₱300 – ₱400</div>
+        <div class="rank-period">Range</div>
+        <ul class="rank-perks">
+          <li>All Tippies/Booster perks</li>
+          <li>+10,000 Land Claim Blocks</li>
+          <li>+20 Custom Warps</li>
+          <li>+3 Custom Commands (in-game)</li>
+          <li>+20 Set Home</li>
+          <li>Avatar drawn by server owner</li>
+          <li>Custom Statue in server</li>
+          <li>Custom Mob in Donator's Aquarium</li>
+        </ul>
+      </div>
+
+      <!-- MUFFINS -->
+      <div class="rank-card rank-card-glow reveal">
+        <div class="rank-crown">👑</div>
+        <div class="rank-name orange-text">Muffins</div>
+        <div class="rank-badge badge-orange">Legendary</div>
+        <div class="rank-price">₱500+</div>
+        <div class="rank-period">Top Tier</div>
+        <ul class="rank-perks">
+          <li>All Tippies/Booster perks</li>
+          <li>+10,000 Land Claim Blocks</li>
+          <li>+30 Custom Warps</li>
+          <li>+5 Custom Commands (in-game)</li>
+          <li>+30 Set Home</li>
+          <li>Avatar drawn by server owner</li>
+          <li>Custom Statue in server</li>
+          <li>Custom Mob in Donator's Aquarium</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- ═══════════════════════════════════════
+       GALLERY
+  ═══════════════════════════════════════ -->
+  <section class="gallery-bg">
+    <div class="container">
+      <div class="section-tag reveal">Eye Candy</div>
+      <h2 class="section-title reveal">Server Gallery</h2>
+      <p class="section-desc reveal">Check out some of the amazing builds and moments from our community. 📸</p>
+
+      <div class="gallery-grid">
+        <div class="gallery-item reveal" style="background:linear-gradient(135deg,#1a472a,#2d6a4f)">
+          <div class="gallery-thumb">🌲🏔️🌲</div>
+          <div class="gallery-overlay">🏔️ Spawn Mountain</div>
+        </div>
+        <div class="gallery-item reveal" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+          <div class="gallery-thumb">🏰⭐🌙</div>
+          <div class="gallery-overlay">🏰 Castle Build</div>
+        </div>
+        <div class="gallery-item reveal" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+          <div class="gallery-thumb">🏜️🌵🌅</div>
+          <div class="gallery-overlay">🌵 Desert Town</div>
+        </div>
+        <div class="gallery-item reveal" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)">
+          <div class="gallery-thumb">🌊🐠🐚</div>
+          <div class="gallery-overlay">🌊 Ocean Base</div>
+        </div>
+        <div class="gallery-item reveal" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">
+          <div class="gallery-thumb">⚡🏙️✨</div>
+          <div class="gallery-overlay">✨ Nether Hub</div>
+        </div>
+        <div class="gallery-item reveal" style="background:linear-gradient(135deg,#dc2626,#991b1b)">
+          <div class="gallery-thumb">🌋🔥⚔️</div>
+          <div class="gallery-overlay">⚔️ PvP Arena</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       ONLINE PLAYERS
+  ═══════════════════════════════════════ -->
+  <section id="players" class="players-section">
+    <div class="container">
+      <div class="section-tag reveal" style="text-align:center">Live</div>
+      <h2 class="section-title reveal" style="text-align:center">Who's Playing Now</h2>
+    </div>
+    <div class="players-card reveal">
+      <div class="players-header">
+        <div class="players-title">🎮 Online Players</div>
+        <div class="player-count-badge">
+          <span class="status-dot"></span>
+          <span id="liveBadge">12 online</span>
+        </div>
+      </div>
+      <div class="players-list" id="playersList"></div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       DISCORD
+  ═══════════════════════════════════════ -->
+  <section id="discord" class="discord-section">
+    <div class="discord-card reveal">
+      <div class="discord-logo">💬</div>
+      <h2>Join Our<br>Discord!</h2>
+      <p>Chat with the community, get help, report bugs, and be the first to hear about events and updates!</p>
+      <a href="https://discord.gg/Aa3PdWWtFE" class="btn-discord">
+        Join the Discord Server →
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">⛏ L0AD1NG SMP<br><span>SEASON</span>3</div>
+        <p class="footer-desc">A fun and friendly Minecraft SMP where everyone is welcome. Join us today and start your adventure!</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#rules">Rules</a></li>
+          <li><a href="#ranks">Ranks</a></li>
+          <li><a href="#players">Players</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Connect</div>
+        <ul class="footer-links">
+          <li><a href="#">Discord Server</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">YouTube Channel</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 L0AD1NG SMP. Not affiliated with Mojang.</span>
+      <div class="social-links">
+        <a class="social-btn" href="#" title="Discord">💬</a>
+        <a class="social-btn" href="#" title="YouTube">▶️</a>
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
