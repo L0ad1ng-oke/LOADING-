@@ -462,6 +462,7 @@ section { padding: 5rem 1.5rem; }
 .feature-card.purple::before { background: var(--purple); }
 .feature-card.pink::before   { background: var(--pink);   }
 .feature-card.orange::before { background: var(--orange); }
+.feature-card.blue::before   { background: var(--blue);   }
 
 .feature-card:hover {
   transform: translateY(-5px);
