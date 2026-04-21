@@ -92,6 +92,11 @@ nav {
 
 .nav-logo span { color: var(--yellow); }
 
+.nav-logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .nav-links {
   display: flex;
   gap: 2rem;
@@ -462,7 +467,8 @@ section { padding: 5rem 1.5rem; }
 .feature-card.purple::before { background: var(--purple); }
 .feature-card.pink::before   { background: var(--pink);   }
 .feature-card.orange::before { background: var(--orange); }
-.feature-card.blue::before   { background: var(--blue);   }
+.feature-card.sky::before    { background: var(--sky);    }
+.feature-card.red::before    { background: var(--red);    }
 
 .feature-card:hover {
   transform: translateY(-5px);
@@ -1033,6 +1039,7 @@ footer {
   display: flex;
   gap: 1rem;
   overflow-x: auto;
+  overflow-y: hidden;
   padding-bottom: 1rem;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
@@ -1040,7 +1047,7 @@ footer {
 
 .ranks-grid-full .rank-card {
   min-width: 200px;
-  flex-shrink: 0;
+  flex-shrink: 0; /* 👈 this is the key — stops cards from squishing */
   scroll-snap-align: start;
 }
 
