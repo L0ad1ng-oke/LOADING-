@@ -361,6 +361,69 @@ async function fetchServerStatus() {
              .gallery-overlay text  (used as caption)
              data-credit attribute  (shown as watermark)
 ───────────────────────────────────────── */
+/* ── Lightbox zoom state ── */
+const _lb = {
+  scale: 1, minScale: 1, maxScale: 8,
+  panX: 0, panY: 0,
+  dragging: false,
+  startX: 0, startY: 0,
+  pinchDist: null, pinchScaleStart: 1,
+};
+
+/* Desktop = has a fine pointer (mouse). Used to gate zoom features. */
+function _lbIsDesktop() {
+  return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+}
+
+function _lbFrame() { return document.getElementById('lightboxFrame'); }
+
+function _lbApply(transition) {
+  const fr = _lbFrame();
+  if (!fr) return;
+  fr.style.transition = transition || 'none';
+  fr.style.transform  = `translate(${_lb.panX}px, ${_lb.panY}px) scale(${_lb.scale})`;
+  const bar = document.getElementById('lbZoomBar');
+  if (bar) bar.querySelector('.lb-zoom-level').textContent = Math.round(_lb.scale * 100) + '%';
+  fr.classList.toggle('panning', _lb.dragging && _lb.scale > 1);
+}
+
+function _lbClamp() {
+  if (_lb.scale <= 1) { _lb.panX = 0; _lb.panY = 0; return; }
+  const fr = _lbFrame();
+  if (!fr) return;
+  const img = fr.querySelector('.lightbox-img');
+  if (!img) return;
+  const iw = img.offsetWidth  * _lb.scale;
+  const ih = img.offsetHeight * _lb.scale;
+  const maxX = Math.max(0, (iw - window.innerWidth)  / 2);
+  const maxY = Math.max(0, (ih - window.innerHeight) / 2);
+  _lb.panX = Math.max(-maxX, Math.min(maxX, _lb.panX));
+  _lb.panY = Math.max(-maxY, Math.min(maxY, _lb.panY));
+}
+
+function _lbReset(animated) {
+  _lb.scale = 1; _lb.panX = 0; _lb.panY = 0;
+  _lbApply(animated ? 'transform 0.22s ease' : 'none');
+}
+
+/* Zoom toward a viewport point (clientX/Y) */
+function _lbZoomTo(newScale, clientX, clientY) {
+  const fr = _lbFrame();
+  if (!fr) return;
+  const rect = fr.getBoundingClientRect();
+  /* vector from frame-centre to pointer, in current frame coords */
+  const cx = rect.left + rect.width  / 2;
+  const cy = rect.top  + rect.height / 2;
+  const dx = clientX - cx;
+  const dy = clientY - cy;
+  const ratio = newScale / _lb.scale;
+  _lb.panX = _lb.panX * ratio + dx * (ratio - 1);
+  _lb.panY = _lb.panY * ratio + dy * (ratio - 1);
+  _lb.scale = newScale;
+  _lbClamp();
+  _lbApply('none');
+}
+
 function openLightbox(el) {
   const img     = el.querySelector('.gallery-img');
   const overlay = el.querySelector('.gallery-overlay');
@@ -373,35 +436,120 @@ function openLightbox(el) {
 
   if (!lb || !lbImg) return;
 
-  lbImg.src     = img ? img.src : '';
-  lbImg.alt     = img ? img.alt : '';
+  lbImg.src = img ? img.src : '';
+  lbImg.alt = img ? img.alt : '';
 
-  /* Caption: prefer the overlay text, fall back to alt */
-  lbCaption.textContent = overlay
-    ? overlay.textContent.trim()
-    : (img ? img.alt : '');
+  lbCaption.textContent = overlay ? overlay.textContent.trim() : (img ? img.alt : '');
+  lbMark.textContent    = credit;
+  lbMark.style.display  = credit ? '' : 'none';
 
-  /* Watermark: only show when a credit is provided */
-  lbMark.textContent  = credit;
-  lbMark.style.display = credit ? '' : 'none';
+  _lb.scale = 1; _lb.panX = 0; _lb.panY = 0; _lb.dragging = false;
+  const fr = _lbFrame();
+  if (fr) {
+    fr.style.cssText = ''; // clear all inline styles so no leftover transform
+  }
+  /* retrigger the pop animation on the image */
+  const lbImg2 = document.getElementById('lightboxImg');
+  if (lbImg2) { lbImg2.style.animation = 'none'; lbImg2.offsetHeight; lbImg2.style.animation = ''; }
 
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  /* Inject zoom bar (desktop only) */
+  if (_lbIsDesktop() && !document.getElementById('lbZoomBar')) {
+    const bar = document.createElement('div');
+    bar.id = 'lbZoomBar';
+    bar.innerHTML = `
+      <button class="lb-zoom-btn" id="lbZoomOut" title="Zoom out">−</button>
+      <span class="lb-zoom-level">100%</span>
+      <button class="lb-zoom-btn" id="lbZoomIn" title="Zoom in">+</button>
+      <button class="lb-zoom-btn lb-zoom-reset" id="lbZoomReset" title="Reset">⤢</button>`;
+    lb.appendChild(bar);
+
+    bar.addEventListener('click', e => e.stopPropagation());
+
+    document.getElementById('lbZoomIn').onclick = () => {
+      _lbZoomTo(Math.min(_lb.maxScale, _lb.scale * 1.4), window.innerWidth/2, window.innerHeight/2);
+    };
+    document.getElementById('lbZoomOut').onclick = () => {
+      const ns = Math.max(_lb.minScale, _lb.scale / 1.4);
+      if (ns <= 1) _lbReset(true); else _lbZoomTo(ns, window.innerWidth/2, window.innerHeight/2);
+    };
+    document.getElementById('lbZoomReset').onclick = () => _lbReset(true);
+  }
 }
 
 function closeLightbox() {
   const lb = document.getElementById('lightbox');
   if (!lb) return;
-
   lb.classList.remove('open');
   document.body.style.overflow = '';
-
-  /* Clear src after the fade-out so the old image doesn't flash on re-open */
+  _lbReset(false);
   setTimeout(() => {
-    const lbImg = document.getElementById('lightboxImg');
-    if (lbImg) lbImg.src = '';
+    const i = document.getElementById('lightboxImg');
+    if (i) i.src = '';
   }, 320);
 }
+
+/* ── Lightbox event listeners — attached once on DOMContentLoaded ── */
+document.addEventListener('DOMContentLoaded', () => {
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+
+  /* ── Backdrop click / tap = close ── */
+  lb.addEventListener('click', e => {
+    const fr = document.getElementById('lightboxFrame');
+    if (!fr) return;
+    /* only close when clicking outside the frame */
+    if (!fr.contains(e.target) && e.target !== fr) closeLightbox();
+  });
+
+  /* ════════════════════════════════════════
+     DESKTOP ONLY — scroll + drag zoom
+  ════════════════════════════════════════ */
+  /* Scroll to zoom */
+  lb.addEventListener('wheel', e => {
+    if (!lb.classList.contains('open') || !_lbIsDesktop()) return;
+    e.preventDefault();
+    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+    const ns = Math.max(_lb.minScale, Math.min(_lb.maxScale, _lb.scale * factor));
+    if (ns <= 1) { _lbReset(true); return; }
+    _lbZoomTo(ns, e.clientX, e.clientY);
+  }, { passive: false });
+
+  /* Double-click to zoom / reset */
+  lb.addEventListener('dblclick', e => {
+    if (!_lbIsDesktop()) return;
+    const fr = document.getElementById('lightboxFrame');
+    if (!fr || !fr.contains(e.target)) return;
+    if (_lb.scale > 1) { _lbReset(true); }
+    else               { _lbZoomTo(2.5, e.clientX, e.clientY); }
+  });
+
+  /* Mouse drag to pan */
+  lb.addEventListener('mousedown', e => {
+    if (!_lbIsDesktop() || _lb.scale <= 1) return;
+    const fr = document.getElementById('lightboxFrame');
+    if (!fr || !fr.contains(e.target)) return;
+    e.preventDefault();
+    _lb.dragging = true;
+    _lb.startX = e.clientX - _lb.panX;
+    _lb.startY = e.clientY - _lb.panY;
+    _lbApply('none');
+  });
+
+  window.addEventListener('mousemove', e => {
+    if (!_lb.dragging) return;
+    _lb.panX = e.clientX - _lb.startX;
+    _lb.panY = e.clientY - _lb.startY;
+    _lbClamp();
+    _lbApply('none');
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (_lb.dragging) { _lb.dragging = false; _lbApply('none'); }
+  });
+});
 
 
 /* ─────────────────────────────────────────
