@@ -971,11 +971,10 @@ section { padding: 5rem 1.5rem; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 1.5rem;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  overflow: hidden;
 }
 
 .lightbox.open {
@@ -986,9 +985,9 @@ section { padding: 5rem 1.5rem; }
 /* ── Close button ── */
 .lightbox-close {
   position: absolute;
-  top: 1.1rem;
-  right: 1.1rem;
-  z-index: 10;
+  top: 1rem;
+  right: 1rem;
+  z-index: 30;
   background: rgba(45, 32, 96, 0.85);
   backdrop-filter: blur(6px);
   border: 1.5px solid rgba(249, 168, 212, 0.4);
@@ -1010,20 +1009,21 @@ section { padding: 5rem 1.5rem; }
   transform: rotate(90deg) scale(1.1);
 }
 
-/* ── Frame: gives a sizing & positioning context for image, watermark, caption ── */
+/* ── Frame: the thing JS transforms (scale + pan) — NO animation here ── */
 .lightbox-frame {
   position: relative;
-  display: inline-flex;          /* shrink-wraps to the image's actual size */
-  max-width:  min(92vw, 960px);
-  max-height: 80vh;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow:
-    0 32px 96px rgba(0, 0, 0, 0.75),
-    0 0 0 1.5px rgba(249, 168, 212, 0.18);
-  animation: lbPop 0.25s cubic-bezier(0.34, 1.36, 0.64, 1) both;
+  display: inline-block;
+  line-height: 0;
+  cursor: zoom-in;
+  will-change: transform;
+  transform-origin: center center;
+  touch-action: none;
+  user-select: none;
 }
 
+.lightbox-frame.panning { cursor: grabbing; }
+
+/* Pop animation lives on the image, not the frame JS controls */
 @keyframes lbPop {
   from { transform: scale(0.88); opacity: 0; }
   to   { transform: scale(1);    opacity: 1; }
@@ -1033,59 +1033,121 @@ section { padding: 5rem 1.5rem; }
 .lightbox-img {
   display: block;
   max-width:  min(92vw, 960px);
-  max-height: 80vh;
+  max-height: 78vh;
   width: auto;
   height: auto;
   object-fit: contain;
-  border-radius: 20px;
+  border-radius: 14px;
+  box-shadow: 0 32px 96px rgba(0,0,0,.75), 0 0 0 1.5px rgba(249,168,212,.18);
+  pointer-events: none;
+  animation: lbPop 0.25s cubic-bezier(0.34, 1.36, 0.64, 1) both;
 }
 
-/* ── Watermark — top-right of the image ── */
+/* ── Watermark — top-right corner OF the image ── */
 .lightbox-watermark {
   position: absolute;
-  top: 0.7rem;
-  right: 0.7rem;
+  top: 0.6rem;
+  right: 0.6rem;
   background: rgba(14, 8, 38, 0.72);
   backdrop-filter: blur(6px);
   color: var(--pink);
   font-family: 'Baloo 2', cursive;
   font-size: 11px;
   font-weight: 800;
-  padding: 0.28rem 0.75rem;
+  padding: 0.25rem 0.7rem;
   border-radius: 999px;
   border: 1px solid rgba(249, 168, 212, 0.35);
   letter-spacing: 0.5px;
   pointer-events: none;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 1px 6px rgba(0,0,0,.7);
   white-space: nowrap;
   user-select: none;
+  z-index: 2;
 }
 
-/* ── Caption — bottom-centre of the image ── */
+/* ── Caption — fixed to viewport bottom-centre, never transforms ── */
 .lightbox-caption {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1.25rem 1rem 0.7rem;
-  background: linear-gradient(to top, rgba(14, 8, 38, 0.82) 0%, transparent 100%);
+  bottom: 3.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 8, 38, 0.75);
+  backdrop-filter: blur(6px);
   color: var(--text);
   font-family: 'Baloo 2', cursive;
   font-weight: 800;
   font-size: 14px;
-  text-align: center;
+  padding: 0.35rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(249,168,212,.22);
   pointer-events: none;
-  letter-spacing: 0.3px;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 20;
 }
 
-/* ── Small hint below the frame ── */
+/* ── Zoom bar — fixed bottom-centre, desktop only ── */
+#lbZoomBar {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(30, 17, 69, 0.88);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(249, 168, 212, 0.3);
+  border-radius: 999px;
+  padding: 0.3rem 0.55rem;
+  z-index: 20;
+  user-select: none;
+}
+
+.lb-zoom-btn {
+  background: rgba(249, 168, 212, 0.1);
+  border: 1.5px solid rgba(249, 168, 212, 0.25);
+  color: var(--pink);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.lb-zoom-btn:hover  { background: rgba(249, 168, 212, 0.25); transform: scale(1.1); }
+.lb-zoom-btn:active { transform: scale(0.9); }
+.lb-zoom-reset { font-size: 12px; }
+
+.lb-zoom-level {
+  font-family: 'Baloo 2', cursive;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* ── Hint — desktop only ── */
 .lightbox-hint {
-  font-size: 11.5px;
+  position: absolute;
+  bottom: 0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 10.5px;
   color: var(--muted);
   font-weight: 600;
-  opacity: 0.6;
+  opacity: 0.45;
   pointer-events: none;
   user-select: none;
+  z-index: 20;
 }
 
 .lightbox-hint kbd {
@@ -1096,6 +1158,13 @@ section { padding: 5rem 1.5rem; }
   padding: 0 4px;
   font-family: inherit;
   font-size: 10px;
+}
+
+/* ── Hide zoom UI on touch devices ── */
+@media (hover: none) and (pointer: coarse) {
+  #lbZoomBar       { display: none !important; }
+  .lightbox-hint   { display: none !important; }
+  .lightbox-frame  { cursor: default; }
 }
 
 
