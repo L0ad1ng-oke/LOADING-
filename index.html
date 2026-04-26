@@ -55,16 +55,19 @@
              .lightbox-caption   – label at bottom of image
          p.lightbox-hint      – small hint below the frame
   ══════════════════════════════════ -->
-  <div class="lightbox" id="lightbox" onclick="closeLightbox()" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
     <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close image viewer">✕</button>
 
-    <div class="lightbox-frame" onclick="event.stopPropagation()">
+    <!-- wrapper scales/pans as one unit -->
+    <div class="lightbox-frame" id="lightboxFrame">
       <img class="lightbox-img" id="lightboxImg" src="" alt="">
+      <!-- watermark rides with the image -->
       <div class="lightbox-watermark" id="lightboxWatermark"></div>
-      <div class="lightbox-caption"   id="lightboxCaption"></div>
     </div>
 
-    <p class="lightbox-hint">Click outside or press <kbd>ESC</kbd> to close</p>
+    <!-- caption + hint stay fixed to viewport -->
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+    <p class="lightbox-hint">Scroll to zoom · Drag to pan · Double-click to toggle · <kbd>ESC</kbd> to close</p>
   </div>
 
 
@@ -93,7 +96,7 @@
         <button class="tab-btn active" id="tab-java-btn"    onclick="switchEdition('java')">☕ Java</button>
         <button class="tab-btn"        id="tab-bedrock-btn" onclick="switchEdition('bedrock')">📱 Bedrock</button>
       </div>
-
+ 
       <!-- Java panel -->
       <div class="tab-panel" id="panel-java">
         <p class="connect-hint">1.21+ · Connect directly with this address</p>
@@ -106,7 +109,7 @@
           </button>
         </div>
       </div>
-
+ 
       <!-- Bedrock panel -->
       <div class="tab-panel hidden" id="panel-bedrock">
         <p class="connect-hint">Works on mobile, console &amp; Windows 10/11</p>
@@ -128,7 +131,7 @@
             </button>
           </div>
         </div>
-
+ 
         <!-- Direct "Add Server" deep-link — works on Bedrock for Windows/mobile -->
         <a class="mc-add-btn" href="minecraft://?addExternalServer=L0AD1NG%20SMP|51.79.229.203:19132">
           <span class="mc-add-icon">🎮</span>
@@ -140,7 +143,6 @@
         </a>
       </div>
     </div>
-    <!-- end connect-card -->
 
     <div class="hero-cta">
       <a href="#features" class="btn btn-primary">🎮 Explore Features</a>
