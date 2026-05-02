@@ -22,7 +22,7 @@
    1. CONFIG
 ───────────────────────────────────────── */
 const CONFIG = {
-  serverIP:   'l0ad1ng.srein.xyz',
+  serverIP:   '216.163.186.36:19000',
   discordURL: 'https://discord.gg/Aa3PdWWtFE',
 };
 
