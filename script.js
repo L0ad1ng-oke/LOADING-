@@ -22,7 +22,7 @@
    1. CONFIG
 ───────────────────────────────────────── */
 const CONFIG = {
-  serverIP:   '216.163.186.36:19000',
+  serverIP:   'l0ad1ngs3.ultraga.me',
   discordURL: 'https://discord.gg/Aa3PdWWtFE',
 };
 
